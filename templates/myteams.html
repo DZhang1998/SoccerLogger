@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<script>
+    $(document).ready(function () {
+        $(".impBtn").click(function () {
+            $(".impH").trigger('click');
+        });
+    });
+</script>
+
+<div class="container" style="position: relative; top: 10vh;">
+    <div class="text-center">
+        <div class="dtTitleBox">
+
+            <div class="dtTitle">Your Dream Teams!</div>
+
+        </div>
+        {% if my_teams|length == 0 %}
+        <h3> You have currently no teams. </h3>
+
+        {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Team ID</th>
+                    <th scope="col">Team Name</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">View Team</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in my_teams %}
+                <tr>
+                    <th scope="row">{{team[0]}} </th>
+                    <td>{{ team[2] }}</td>
+                    <td>{{ team[1] }}</td>
+                    <td><a href="{{ url_for('main.my_team', team_id=team[0]) }}">Team Page</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <div class="crTeamBox">
+            <div class="crTeamTitle">Create A Team</div>
+            <a class="crTeamBtn" href="{{ url_for('main.create_team') }}">+</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

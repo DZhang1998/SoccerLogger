@@ -1,0 +1,254 @@
+############################################################
+            DATABASE: man9ej_login
+############################################################
+
+CREATE TABLE users (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    bio VARCHAR(160),
+    propic_url VARCHAR(2083),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+############################################################
+            DATABASE: man9ej_final_project
+############################################################
+
+############################ ENTITY SETS
+
+CREATE TABLE DreamTeam (
+    dreamID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    userID INT NOT NULL,
+    name varchar(50) NOT NULL
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Player (
+    playerID INT NOT NULL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    position VARCHAR(50) NOT NULL,
+    nationality VARCHAR(50) NOT NULL,
+    goals INT NOT NULL,
+    assists INT NOT NULL
+);
+
+CREATE TABLE DreamTeamMember (
+    dreamID INT NOT NULL,
+    playerID INT NOT NULL,
+    PRIMARY KEY (dreamID, playerID),
+    FOREIGN KEY (dreamID) REFERENCES DreamTeam(dreamID),
+    FOREIGN KEY (playerID) REFERENCES Player(playerID)
+);
+
+CREATE TABLE Team (
+    teamID INT NOT NULL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    league VARCHAR(50) NOT NULL,
+    wins INT NOT NULL,
+    draws INT NOT NULL,
+    losses INT NOT NULL
+);
+
+CREATE TABLE TeamMember (
+    teamID INT NOT NULL,
+    playerID INT NOT NULL,
+    PRIMARY KEY (teamID, playerID),
+    FOREIGN KEY (teamID) REFERENCES Team(teamID),
+    FOREIGN KEY (playerID) REFERENCES Player(playerID)
+);
+
+CREATE TABLE Game (
+    gameID INT NOT NULL PRIMARY KEY,
+    name VARCHAR(155) NOT NULL,
+    home_team_id INT NOT NULL,
+    away_team_id INT NOT NULL,
+    score VARCHAR(7) NOT NULL,
+    FOREIGN KEY (home_team_id) REFERENCES Team(teamID),
+    FOREIGN KEY (away_team_id) REFERENCES Team(teamID)
+);
+
+CREATE TABLE Competition (
+    competitionID INT NOT NULL PRIMARY KEY,
+    area VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE CompetitionTeam (
+    competitionID INT NOT NULL,
+    teamID INT NOT NULL,
+    PRIMARY KEY (competitionID, teamID),
+    FOREIGN KEY (competitionID) REFERENCES Competition(competitionID),
+    FOREIGN KEY (teamID) REFERENCES Team(teamID)
+);
+
+CREATE TABLE CompetitionGame (
+    competitionID INT NOT NULL,
+    gameID INT NOT NULL,
+    PRIMARY KEY (competitionID, gameID),
+    FOREIGN KEY (competitionID) REFERENCES Competition(competitionID),
+    FOREIGN KEY (gameID) REFERENCES Game(gameID)
+);
+
+############################ RELATIONSHIP SETS
+
+CREATE TABLE UserCreatesDreamTeam (
+    dreamID INT NOT NULL,
+    userID INT NOT NULL,
+    PRIMARY KEY (dreamID, userID),
+    FOREIGN KEY (dreamID) REFERENCES DreamTeam(dreamID)
+);
+
+CREATE TABLE TeamPlaysInGame (
+    gameID INT NOT NULL,
+    teamID INT NOT NULL,
+    PRIMARY KEY (teamID, gameID),
+    FOREIGN KEY (gameID) REFERENCES Game(gameID),
+    FOREIGN KEY (teamID) REFERENCES Team(teamID)
+);
+
+CREATE TABLE PlayerInGame (
+    gameID INT NOT NULL,
+    playerID INT NOT NULL,
+    PRIMARY KEY (teamID, playerID),
+    FOREIGN KEY (gameID) REFERENCES Game(gameID),
+    FOREIGN KEY (playerID) REFERENCES Player(playerID)
+);
+
+
+############################################################
+            STORED PROCEDURES
+############################################################
+
+DELIMITER //
+
+CREATE PROCEDURE CreateDreamTeam(
+	IN teamname varchar(50),
+    IN UID INT
+)
+BEGIN
+	INSERT INTO DreamTeam
+    (userID, name)
+    VALUES (UID, teamname);
+    
+    INSERT INTO UserCreatesDreamTeam
+    SELECT dreamID, userID
+    FROM DreamTeam
+    WHERE userID = UID AND name = teamname;
+    
+END //
+
+DELIMITER ;
+
+DELIMITER //
+BEGIN
+    SELECT *
+    FROM Player
+    WHERE playerID = ANY(
+        SELECT playerID
+        FROM TeamMember
+        WHERE teamID = ANY(
+            SELECT teamID
+            FROM Team
+            WHERE name LIKE team_name
+        )
+    ) AND
+    playerID = ANY(
+        SELECT playerID
+        FROM PlayerInGame
+        WHERE gameID = ANY (
+            SELECT gameID
+            FROM Game
+            WHERE name LIKE game_name
+        )
+    );
+END
+END //
+
+DELIMITER ;
+
+
+
+DELIMITER //
+BEGIN
+    IF team_name = "%" THEN
+        IF game_name = "%" THEN
+            SELECT *
+            FROM Player;
+        ELSE
+            SELECT *
+            FROM Player
+            WHERE playerID = ANY(
+                SELECT playerID
+                FROM PlayerInGame
+                WHERE gameID = ANY (
+                    SELECT gameID
+                    FROM Game
+                    WHERE name LIKE game_name
+                )
+            );
+        END IF;
+    ELSEIF game_name = "%" THEN
+        SELECT *
+        FROM Player
+        WHERE playerID = ANY(
+            SELECT playerID
+            FROM TeamMember
+            WHERE teamID = ANY(
+                SELECT teamID
+                FROM Team
+                WHERE name LIKE team_name
+            )
+        );
+    ELSE
+        SELECT *
+        FROM Player
+        WHERE playerID = ANY(
+            SELECT playerID
+            FROM TeamMember
+            WHERE teamID = ANY(
+                SELECT teamID
+                FROM Team
+                WHERE name LIKE team_name
+            )
+        ) AND
+        playerID = ANY(
+            SELECT playerID
+            FROM PlayerInGame
+            WHERE gameID = ANY (
+                SELECT gameID
+                FROM Game
+                WHERE name LIKE game_name
+            )
+        );
+    END IF;
+
+
+    SELECT *
+    FROM Player
+    WHERE playerID = ANY(
+        SELECT playerID
+        FROM TeamMember
+        WHERE teamID = ANY(
+            SELECT teamID
+            FROM Team
+            WHERE name LIKE team_name
+        )
+    ) AND
+    playerID = ANY(
+        SELECT playerID
+        FROM PlayerInGame
+        WHERE gameID = ANY (
+            SELECT gameID
+            FROM Game
+            WHERE name LIKE game_name
+        )
+    );
+END
+END //
+
+DELIMITER ;

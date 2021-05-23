@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SoccerLogger</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
+        crossorigin="anonymous">
+    <!-- animsition.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/css/animsition.min.css"
+        integrity="sha512-SagM1PHxt5mWDyWARVY6UOdhM5A8J+R1UqIWcGfiwOd+be7uHQagB+JQOmfVZF8jjJQqbyuWzw/KXfb4yqjBkQ=="
+        crossorigin="anonymous" />
+    <!-- <link rel="shortcut icon" href="https://www.clipartkey.com/mpngs/m/321-3213829_transparent-uva-logo.png" /> -->
+    <!-- <link rel="shortcut icon"
+        href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAfQEvnVv7wNjveTn3Y7fp9g7mSzSTDihpDw&usqp=CAU" /> -->
+    <link rel="icon" href="https://i.ibb.co/ZhwqxmW/UVASL.png">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+    {% include 'base/css.html' %}
+    {% block css %}
+    {% endblock %}
+
+</head>
+
+<body class="animsition">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <img class="logo" src="https://i.ibb.co/ZhwqxmW/UVASL.png"></img>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">SoccerLogger</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    {% if session['username'] is defined %}
+                    <a href="{{ url_for('main.index') }}" class="nav-item nav-link">
+                        Home
+                    </a>
+                    <a href="{{ url_for('main.profile') }}" class="nav-item nav-link">
+                        Profile
+                    </a>
+                    <a href="{{ url_for('main.my_teams_overview') }}" class="nav-item nav-link">
+                        My Teams
+                    </a>
+                    <a href="{{ url_for('main.players') }}" class="nav-item nav-link">
+                        Players
+                    </a>
+
+                    <a href="{{ url_for('main.live') }}" class="nav-item nav-link label1" data-label1="new">
+                        Matches
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="nav-item nav-link">
+                        Logout
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('auth.signin') }}" class="nav-item nav-link ">
+                        Login
+                    </a>
+                    <a href="{{ url_for('auth.signup') }}" class="nav-item nav-link">
+                        Sign Up
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+
+    <!-- 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <!-- animsition.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"
+        integrity="sha512-pYd2QwnzV9JgtoARJf1Ui1q5+p1WHpeAz/M0sUJNprhDviO4zRo12GLlk4/sKBRUCtMHEmjgqo5zcrn8pkdhmQ=="
+        crossorigin="anonymous"></script>
+
+    <!-- sweetalert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".animsition").animsition({
+                inClass: 'fade-in',
+                outClass: 'fade-out',
+                inDuration: 1500,
+                outDuration: 800,
+                linkElement: '.animsition-link',
+                loading: true,
+                loadingParentElement: 'html',
+                loadingClass: 'animsition-loading-1',
+                loadingInner: '<div class="loader05"></div>',
+                timeout: false,
+                timeoutCountdown: 5000,
+                onLoadEvent: true,
+                browser: ['animation-duration', '-webkit-animation-duration'],
+                overlay: false,
+                overlayClass: 'animsition-overlay-slide',
+                overlayParentElement: 'html',
+                transition: function (url) { window.location.href = url; }
+            });
+        });
+    </script>
+</body>
+
+
+</html>

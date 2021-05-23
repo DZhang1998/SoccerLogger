@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container pt-5">
+
+
+
+
+	<h2 class="text-center" style="font-size: 3em">
+		Live Scores
+	</h2>
+
+
+	<p class="text-center lead font-weight-normal">
+		See who's playing around the globe right now.
+	</p>
+
+	<div class="pt-3">
+
+		<iframe src="https://www.scorebat.com/embed/livescore/" frameborder="0" width="600" height="760" allowfullscreen
+			allow='autoplay; fullscreen' style="width:600px;height:760px;overflow:hidden;display:block;"
+			class="_scorebatEmbeddedPlayer_"></iframe>
+		<script>(function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://www.scorebat.com/embed/embed.js?v=arrv'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'scorebat-jssdk'));</script>
+	</div>
+	<!-- {% for object in raw %}
+
+
+    <div class="row">
+        {{object.title}} | {{object.competition.name}}
+        {% for video in object.videos %}
+
+        {{video.embed|safe}}
+
+        {% endfor %}
+    </div>
+
+    {% endfor %} -->
+
+</div>
+
+{% endblock %}

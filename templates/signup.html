@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="midBox">
+    <div class="suTitleBox">
+        <img class="suImg" src="https://i.ibb.co/KG3wThj/competitor.png"></img>
+    </div>
+    <div class="suBox">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form class="suForm" method="POST" action="/signup" enctype="multipart/form-data">
+            <div class="fieldBox">
+                <input class="field" name="firstname" placeholder="First Name"></input>
+                <input class="field" name="lastname" placeholder="Last Name"></input>
+            </div>
+            <div class="fieldBox">
+                <input class="field" name="username" placeholder="Username"></input>
+                <input class="field" name="email" placeholder="Email"></input>
+            </div>
+            <div class="fieldBox">
+                <input type="password" class="field" name="password" placeholder="Password"></input>
+                <input type="password" class="field" name="cpassword" placeholder="Confirm Password"></input>
+            </div>
+            <textarea name="bio" class="bio" placeholder="Short Bio"></textarea>
+
+            <div class="form-group choosePic">
+                <label for="avatar">Choose a (png) profile picture:</label>
+                <input type="file" id="avatar" name="profile_picture" class="form-control-file"
+                    accept="image/png, image/jpeg">
+            </div>
+
+            <button class="suBtn" id="ajax-buton">Sign Up</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block css %}
+
+
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    body::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari and Opera */
+    }
+
+    .navBox {
+        width: 100%;
+        height: 70px;
+        background-color: white;
+        border-bottom: solid rgb(33, 33, 33);
+        border-width: 1px;
+        position: fixed;
+        top: 0;
+        z-index: 100;
+    }
+
+    .navLeft {
+        width: 50%;
+        height: 100%;
+        float: left;
+        display: flex;
+        align-items: center;
+    }
+
+    .navRight {
+        width: 50%;
+        height: 100%;
+        float: right;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .logoBox {
+        width: 50%;
+        height: 70px;
+        object-fit: fill;
+        position: relative;
+        left: 15%;
+        display: flex;
+        align-items: center;
+        color: rgb(33, 33, 33);
+        font-size: 26px;
+    }
+
+    .logo {
+        width: 42px;
+        height: 45px;
+        object-fit: fill;
+        margin-right: 1%;
+    }
+
+    .navLinks {
+        width: auto;
+        margin: 3%;
+        height: 100%;
+        font-family: Verdana;
+        color: rgb(33, 33, 33);
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        flex-direction: column;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .navLinks:hover {
+        text-decoration: underline;
+    }
+
+    .midBox {
+        width: 100%;
+        height: calc(100vh - 144px);
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .suTitleBox {
+        width: 40%;
+        height: 25%;
+        position: relative;
+        top: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .suImg {
+        width: auto;
+        height: 12vh;
+        object-fit: fill;
+    }
+
+    .suTitle {
+        text-align: center;
+        font-family: verdana;
+        font-size: 50px;
+        font-weight: bold;
+        color: rgb(33, 33, 33);
+        margin-bottom: 3%;
+    }
+
+    .suBox {
+        width: 50%;
+        height: 65%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .suForm {
+        border-radius: 15px;
+        width: 85%;
+        height: 90%;
+        border: solid rgb(33, 33, 33);
+        border-width: 2px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .fieldBox {
+        width: 95%;
+        height: 12%;
+        margin: 3% 1% 0 1%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .field {
+        width: 45%;
+        border-radius: 15px;
+        height: 75%;
+        background-color: white;
+        border: solid rgb(33, 33, 33);
+        border-width: 1px;
+        outline: none;
+        margin: 1%;
+        font-family: verdana;
+        padding-left: 2%;
+    }
+
+    .bio {
+        width: 87.5%;
+        height: 25%;
+        margin-top: 3%;
+        border-radius: 15px;
+        background-color: white;
+        font-family: verdana;
+        padding-left: 2%;
+        padding-top: 1%;
+        border: solid rgb(33, 33, 33);
+        border-width: 1px;
+        outline: none;
+        resize: none;
+    }
+
+    .suBtn {
+        width: 35%;
+        height: 15%;
+        border-radius: 25px;
+        background-color: rgb(229, 114, 0);
+        color: rgb(35, 45, 75);
+        font-family: verdana;
+        font-weight: bold;
+        border: solid rgb(33, 33, 33);
+        border-width: 1px;
+        cursor: pointer;
+        margin-top: 2%;
+        margin-bottom: 4%;
+    }
+
+
+
+    .footer {
+        width: 100%;
+        height: 50px;
+        background-color: white;
+        border-top: solid rgb(33, 33, 33);
+        border-width: 1px;
+    }
+
+    .choosePic {
+        margin: 2%;
+        position: relative;
+        left: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+
+<style>
+    .nav-link,
+    .nav-item {
+        color: rgb(33, 33, 33)
+    }
+
+    .nav-link:hover {
+        text-decoration: underline;
+    }
+
+    .nav-link:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

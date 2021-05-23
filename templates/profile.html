@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+
+
+
+
+
+<div class="container pt-4">
+
+  <h1>My Profile</h1>
+  <div class="text-center">
+
+
+    <div class="thumb-lg mx-auto block2-pic hov-img0" data-toggle="popover" data-trigger="hover" title="Edit Picture"
+      data-content="Click to change your profile picture.">
+      <form id="change-pic" class="suForm" method="POST" action="/update_pic" enctype="multipart/form-data">
+
+        <label for="file-input">
+          <img src="{{pic_url}}" draggable=false class="rounded-circle img-thumbnail pPic" alt="profile-image">
+          <div class="block2-text flex-c-m hov-btn1 trans-04">Change Photo</div>
+        </label>
+        <input id="file-input" hidden type="file" accept="image/png, image/jpeg" name="profile_picture" />
+      </form>
+
+
+
+    </div>
+    <h4 style="padding-top: 10px">{{username}}</h4>
+    <div class="profEmail text-muted">{{email}}</div>
+
+
+
+
+
+    <div class="profBioBox pt-2">
+      <div class="profBio">{{bio}}</div>
+    </div>
+
+
+    <div class="row">
+      <div class="col">
+
+        <div class="profBtnBox justify-content-center">
+          <!-- Button trigger modal -->
+          <button type="button" class="editBioBtn btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+            Edit Bio
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <form method="POST" action="/profile">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Change your Bio</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="form-group">
+              <textarea class="form-control bioForm" name="bio_entry" rows="5">{{bio}}</textarea>
+            </div>
+            <!-- <textarea class="bioForm" name="bio_entry" autofocus="autofocus"></textarea> -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            <!-- <div class="cancelBioBtn">Cancel</div> -->
+            <button class="submitBioBtn btn btn-success" type="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+</div>
+
+<!-- <script>
+  $(document).ready(function () {
+    $(".profBio").show();
+    $(".bioForm").hide();
+    $(".cancelBioBtn").hide();
+    $(".submitBioBtn").hide();
+    $(".editBioBtn").show();
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    $(".editBioBtn").click(function () {
+      var bio = $(".profBio").text();
+      $(".profBio").hide();
+      $(".bioForm").show();
+      $(".bioForm").focus();
+      $(".bioForm").val(bio);
+      $(".cancelBioBtn").show();
+      $(".submitBioBtn").show();
+      $(".editBioBtn").hide();
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    $(".cancelBioBtn").click(function () {
+      $(".profBio").show();
+      $(".bioForm").hide();
+      $(".cancelBioBtn").hide();
+      $(".submitBioBtn").hide();
+      $(".editBioBtn").show();
+    });
+  });
+</script> -->
+
+<script>
+  $(function () {
+    $("input:file").change(function () {
+      $('#change-pic').submit();
+
+    });
+  });
+</script>
+{% endblock %}
+
+{% block css %}
+
+<style>
+  /* https://letmeknow.s3.amazonaws.com/media/profiles/599746933.jpeg  */
+  /* Profile picture */
+  .img-thumbnail {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    width: 100%;
+    height: 100%;
+
+  }
+
+
+
+  .thumb-lg {
+    height: 170px;
+    width: 170px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .img-thumbnail:hover {
+    cursor: pointer;
+  }
+
+  .pPic {
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    border: 2px solid rgb(187, 187, 187);
+  }
+</style>
+<script>
+  $(function () {
+    $('[data-toggle="popover"]').popover()
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,51 @@
+INSERT into Competition
+(competitionID area	name)
+VALUES
+(0, "United States", "MLS")
+(1, "Italy", "Serie A")
+(2, "Brazil", "Brasileriao")
+(3, "Argentina", "Argentine Primera")
+(4, "Mexico", "Liga MX")
+(5, "Netherlands", "Eredivisie")
+(6, "Ukraine", "Ukrainian Permier League")
+(7, "Spain", "La Liga")
+(8, "Germany", "Bundesliga")
+(9, "England", "Premier League");
+
+teamID wins draws losses name
+(0, 18, 2, 6, "LA Galaxy")
+(0, 20, 4, 0, "Seattle Sounders)
+
+
+MLS: LA Galaxy, Seattle Sounders
+Serie A: Inter Milan, Atalanta B.C.
+
+EpicBomberMan — Today at 10:05 PM
+Brasileirao: Sociedade Esportiva Palmeiras, Sport Club Corinthians Paulista
+Argentine Primera: Club Atlético River Plate, Club Atlético Independiente
+Liga MX: C.D. Guadalajara, Tigres UANL
+
+(Ajax, 31, 4, 2, 5)
+(PSV, 19, 5, 4, 5)
+(AZ Alkmaar, 18, 4, 2, 5)
+(Vitesse, 15, 14, 12, 5)
+
+(Dynamo Kyiv, 19, 4, 1, 6)
+(Shakhtar Donetsk, 14, 6, 4, 6)
+(Zorya Luhansk, 13, 5, 6, 6)
+(Kolos, 9, 11, 4, 6)
+
+(Atletico Madrid, 23, 6, 4, 7)
+(Real Madrid, 22, 8, 4, 7)
+(Barcelona, 23, 5, 6, 7)
+(Sevilla, 22, 4, 8, 7)
+
+(Bayern, 22, 5, 4, 8)
+(Wolfsburg, 16, 9, 6, 8)
+(Dortmund, 17, 4, 10, 8)
+(Leverkusen, 14, 8, 9, 8)
+
+(Man City, 25, 5, 4, 9)
+(Man United, 19, 10, 4, 9)
+(Chelsea, 17, 10, 7, 9)
+(Liverpool, 15, 9, 9, 9)

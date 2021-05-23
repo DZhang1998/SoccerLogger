@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="newTmBox">
+    <div class="newTmCard">
+        <div class="newTmTitle">New Dream Team:</div>
+        <form class="newTmForm" method="POST" action="/create_team">
+            <input class="newTmIn" name="teamname" placeholder="Dream Team Name"></input>
+            <button type="submit" class="newTmBtn">Create!</button>
+        </form>
+        
+    </div>
+</div>
+{% endblock %}
